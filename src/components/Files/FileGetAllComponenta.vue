@@ -46,37 +46,32 @@ export default defineComponent({
         console.error('An error occurred:', error)
       }
     },
-
     async downloadFile() {
-      debugger
       try {
-         this.fileUrl = "http://localhost:7131/files/"+this.fileName;
-        const response = await axios.get(String( this.fileUrl) , {
+        debugger
+        console.log(this.fileName)
+        const response = await axios.get(`/api/files/fileName?fileName=${this.fileName}`, {
           responseType: 'blob',
         });
-        const blob = new Blob([response.data]);
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'filename.txt');
-        document.body.appendChild(link);
-        link.click();
 
-        window.URL.revokeObjectURL(url);
+        if (response.status === 200) {
+          const blob = new Blob([response.data]);
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', this.fileName);
+          document.body.appendChild(link);
+          link.click();
+          window.URL.revokeObjectURL(url);
+        } else {
+          console.error('File download failed.');
+        }
       } catch (error) {
-        console.error('Fayl yuklashda xatolik yuz berdi:', error);
+        console.error('An error occurred:', error);
       }
+    },
 
-      // let fileURL = 'yourFileURL'
 
-      // // Create a new anchor element
-      // let link = document.createElement('a')
-      // link.href = fileURL
-      // link.target = '_blank' // Open in a new tab/window
-
-      // // Trigger a click event on the anchor element
-      // link.click()
-    }
   },
   data() {
     return {
