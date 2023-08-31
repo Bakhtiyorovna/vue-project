@@ -50,7 +50,7 @@ export default defineComponent({
     async downloadFile() {
       debugger
       try {
-         this.fileUrl = "http://localhost:7131/files/File_094c7c07-e9d5-42ef-8f0a-5fbe01e8dec0.png"+this.fileName;
+         this.fileUrl = "http://localhost:7131/files/"+this.fileName;
         const response = await axios.get(String( this.fileUrl) , {
           responseType: 'blob',
         });
